@@ -1,0 +1,407 @@
+{
+  "per_sample": {
+    "diffusion_reaction": {
+      "maha_full": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.99,
+        "tpr": 1.0,
+        "fpr": 0.02
+      },
+      "maha_lw": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.99,
+        "tpr": 1.0,
+        "fpr": 0.02
+      },
+      "maha_pca3": {
+        "auroc": 0.787,
+        "fpr95": 0.69,
+        "acc": 0.625,
+        "tpr": 0.27,
+        "fpr": 0.02
+      },
+      "maha_pca5": {
+        "auroc": 0.9972,
+        "fpr95": 0.0,
+        "acc": 0.98,
+        "tpr": 0.98,
+        "fpr": 0.02
+      },
+      "maha_pca10": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.985,
+        "tpr": 1.0,
+        "fpr": 0.03
+      },
+      "maha_pca15": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.99,
+        "tpr": 1.0,
+        "fpr": 0.02
+      },
+      "maha_pca20": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.995,
+        "tpr": 1.0,
+        "fpr": 0.01
+      },
+      "w2_point": {
+        "auroc": 0.5905,
+        "fpr95": 0.77,
+        "acc": 0.495,
+        "tpr": 0.0,
+        "fpr": 0.01
+      },
+      "w2_values": {
+        "auroc": 0.2439,
+        "fpr95": 1.0,
+        "acc": 0.495,
+        "tpr": 0.0,
+        "fpr": 0.01
+      },
+      "w2_gauss": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.985,
+        "tpr": 1.0,
+        "fpr": 0.03
+      },
+      "lrt": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 1.0,
+        "tpr": 1.0,
+        "fpr": 0.0
+      }
+    },
+    "burgers": {
+      "maha_full": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.995,
+        "tpr": 1.0,
+        "fpr": 0.01
+      },
+      "maha_lw": {
+        "auroc": 0.9999,
+        "fpr95": 0.0,
+        "acc": 0.975,
+        "tpr": 1.0,
+        "fpr": 0.05
+      },
+      "maha_pca3": {
+        "auroc": 0.48469999999999996,
+        "fpr95": 0.96,
+        "acc": 0.495,
+        "tpr": 0.01,
+        "fpr": 0.02
+      },
+      "maha_pca5": {
+        "auroc": 0.6087,
+        "fpr95": 0.96,
+        "acc": 0.525,
+        "tpr": 0.05,
+        "fpr": 0.0
+      },
+      "maha_pca10": {
+        "auroc": 0.9717999999999999,
+        "fpr95": 0.05,
+        "acc": 0.95,
+        "tpr": 0.94,
+        "fpr": 0.04
+      },
+      "maha_pca15": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.975,
+        "tpr": 1.0,
+        "fpr": 0.05
+      },
+      "maha_pca20": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.985,
+        "tpr": 1.0,
+        "fpr": 0.03
+      },
+      "w2_point": {
+        "auroc": 0.5595,
+        "fpr95": 0.93,
+        "acc": 0.48,
+        "tpr": 0.0,
+        "fpr": 0.04
+      },
+      "w2_values": {
+        "auroc": 0.3421,
+        "fpr95": 0.96,
+        "acc": 0.48,
+        "tpr": 0.0,
+        "fpr": 0.04
+      },
+      "w2_gauss": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.995,
+        "tpr": 1.0,
+        "fpr": 0.01
+      },
+      "lrt": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 1.0,
+        "tpr": 1.0,
+        "fpr": 0.0
+      }
+    },
+    "advection": {
+      "maha_full": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.998,
+        "tpr": 1.0,
+        "fpr": 0.01
+      },
+      "maha_lw": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.996,
+        "tpr": 1.0,
+        "fpr": 0.02,
+        "per_regime": {
+          "adv_test_ls_0.05_101_101.npz": 1.0,
+          "adv_test_ls_0.15_101_101.npz": 1.0,
+          "adv_test_ls_0.1_101_101.npz": 1.0,
+          "adv_test_ls_0.2_101_101.npz": 1.0
+        }
+      },
+      "maha_pca3": {
+        "auroc": 0.8311,
+        "fpr95": 0.84,
+        "acc": 0.396,
+        "tpr": 0.25,
+        "fpr": 0.02
+      },
+      "maha_pca5": {
+        "auroc": 0.989625,
+        "fpr95": 0.02,
+        "acc": 0.952,
+        "tpr": 0.945,
+        "fpr": 0.02,
+        "per_regime": {
+          "adv_test_ls_0.05_101_101.npz": 0.998,
+          "adv_test_ls_0.15_101_101.npz": 0.9838,
+          "adv_test_ls_0.1_101_101.npz": 0.9884999999999999,
+          "adv_test_ls_0.2_101_101.npz": 0.9882000000000001
+        }
+      },
+      "maha_pca10": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.996,
+        "tpr": 1.0,
+        "fpr": 0.02
+      },
+      "maha_pca15": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.996,
+        "tpr": 1.0,
+        "fpr": 0.02
+      },
+      "maha_pca20": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.996,
+        "tpr": 1.0,
+        "fpr": 0.02
+      },
+      "w2_point": {
+        "auroc": 0.869175,
+        "fpr95": 0.6,
+        "acc": 0.314,
+        "tpr": 0.1475,
+        "fpr": 0.02,
+        "per_regime": {
+          "adv_test_ls_0.05_101_101.npz": 0.9663999999999999,
+          "adv_test_ls_0.15_101_101.npz": 0.8379,
+          "adv_test_ls_0.1_101_101.npz": 0.9077999999999999,
+          "adv_test_ls_0.2_101_101.npz": 0.7646000000000001
+        }
+      },
+      "w2_values": {
+        "auroc": 0.76195,
+        "fpr95": 0.91,
+        "acc": 0.324,
+        "tpr": 0.16,
+        "fpr": 0.02
+      },
+      "w2_gauss": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.996,
+        "tpr": 1.0,
+        "fpr": 0.02
+      },
+      "lrt": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 1.0,
+        "tpr": 1.0,
+        "fpr": 0.0
+      }
+    },
+    "poisson": {
+      "maha_full": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.995,
+        "tpr": 1.0,
+        "fpr": 0.01
+      },
+      "maha_lw": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.995,
+        "tpr": 1.0,
+        "fpr": 0.01
+      },
+      "maha_pca3": {
+        "auroc": 0.7421,
+        "fpr95": 0.8,
+        "acc": 0.61,
+        "tpr": 0.22,
+        "fpr": 0.0
+      },
+      "maha_pca5": {
+        "auroc": 0.9815,
+        "fpr95": 0.12,
+        "acc": 0.95,
+        "tpr": 0.92,
+        "fpr": 0.02
+      },
+      "maha_pca10": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.99,
+        "tpr": 1.0,
+        "fpr": 0.02
+      },
+      "maha_pca15": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.995,
+        "tpr": 1.0,
+        "fpr": 0.01
+      },
+      "maha_pca20": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.995,
+        "tpr": 1.0,
+        "fpr": 0.01
+      },
+      "w2_point": {
+        "auroc": 0.6191,
+        "fpr95": 0.71,
+        "acc": 0.495,
+        "tpr": 0.0,
+        "fpr": 0.01
+      },
+      "w2_values": {
+        "auroc": 0.2638,
+        "fpr95": 1.0,
+        "acc": 0.495,
+        "tpr": 0.0,
+        "fpr": 0.01
+      },
+      "w2_gauss": {
+        "auroc": 0.8216999999999999,
+        "fpr95": 0.25,
+        "acc": 0.5,
+        "tpr": 0.01,
+        "fpr": 0.01
+      },
+      "lrt": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 1.0,
+        "tpr": 1.0,
+        "fpr": 0.0
+      }
+    },
+    "cavity_flow": {
+      "maha_full": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.9333333333333333,
+        "tpr": 0.8,
+        "fpr": 0.0
+      },
+      "maha_lw": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.9333333333333333,
+        "tpr": 0.8,
+        "fpr": 0.0
+      },
+      "maha_pca1": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 0.9333333333333333,
+        "tpr": 0.8,
+        "fpr": 0.0
+      },
+      "w2_point": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 1.0,
+        "tpr": 1.0,
+        "fpr": 0.0
+      },
+      "w2_values": {
+        "auroc": 0.98,
+        "fpr95": 0.1,
+        "acc": 0.8666666666666667,
+        "tpr": 0.6,
+        "fpr": 0.0
+      },
+      "range_check": {
+        "auroc": 1.0,
+        "fpr95": 0.0,
+        "acc": 1.0,
+        "tpr": 1.0,
+        "fpr": 0.0
+      }
+    }
+  },
+  "set_level_w2": {
+    "diffusion_reaction": {
+      "train_vs_random_100_train": 0.10135259947530943,
+      "dr_test_ls_0.2_101_101.npz": 0.4770601642753899,
+      "dr_test_ls_0.5_101_101.npz": 0.09570688303561531
+    },
+    "burgers": {
+      "train_vs_random_100_train": 0.15019531633725858,
+      "burgers_test_ls_0.6_101_101.npz": 0.3707027114281043,
+      "burgers_test_ls_1.0_101_101.npz": 0.16044802292234908
+    },
+    "advection": {
+      "train_vs_random_100_train": 0.09134904536760574,
+      "adv_test_ls_0.05_101_101.npz": 1.4702854780154389,
+      "adv_test_ls_0.15_101_101.npz": 0.8308287582088985,
+      "adv_test_ls_0.1_101_101.npz": 1.103193302276166,
+      "adv_test_ls_0.2_101_101.npz": 0.6270643521543632,
+      "adv_test_ls_0.5_101_101.npz": 0.03408107245433861
+    },
+    "poisson": {
+      "train_vs_random_100_train": 0.11382149615442157,
+      "poisson_test_ls_0.2_5082.npz": 0.4678895278671864,
+      "poisson_test_ls_0.5_5082.npz": 0.18427757811374496
+    }
+  }
+}

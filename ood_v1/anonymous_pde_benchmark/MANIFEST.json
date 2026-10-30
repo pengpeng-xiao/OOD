@@ -1,0 +1,134 @@
+{
+  "description": "Split-blind DeepONet PDE benchmark",
+  "files": {
+    "README.md": {
+      "bytes": 2153,
+      "sha256": "b519f8e1e50e744d746eb0888a1e1b3553dc9d0bdfe869e69d0c91b7a3954a32"
+    },
+    "environment.yml": {
+      "bytes": 316,
+      "sha256": "cc02aa7dc6bb573a684fa245a3b2a7d4814431749393d7f8812189ed00417624"
+    },
+    "evaluate.py": {
+      "bytes": 2112,
+      "sha256": "5b35435deccd294db26546adf861c90f3065cf726347d08d0f64225488f457b4"
+    },
+    "predict.py": {
+      "bytes": 5362,
+      "sha256": "495d5edbb04a8d8192b496a22e4a69b499c17b67ee400cb190a521759b727fbe"
+    },
+    "problems/advection/checkpoint/model.data-00000-of-00001": {
+      "bytes": 203604,
+      "sha256": "09de2f778c7359183590f465c760600c3f0fc7127f425fd2bff91fc0eac61bf0"
+    },
+    "problems/advection/checkpoint/model.index": {
+      "bytes": 508,
+      "sha256": "421a6c5011f8f054005b4cd14ff763ca361c7ef67ec8fa05756a043f6e0857d9"
+    },
+    "problems/advection/checkpoint/model.meta": {
+      "bytes": 148528,
+      "sha256": "42a67a1a07697902821c59d6574ef13093a6bb0fe78f49a26959ac62af594b75"
+    },
+    "problems/advection/test_data.npz": {
+      "bytes": 38649310,
+      "sha256": "30b5f17a7808dc511a2978f80228c60573a117d23276427c9ed046828b0aff90"
+    },
+    "problems/advection/training_data.npz": {
+      "bytes": 82579980,
+      "sha256": "ba50988183f5f2b06186fb2a768b177e13ca76f7a9258070afb26624562b8026"
+    },
+    "problems/burgers/checkpoint/model.data-00000-of-00001": {
+      "bytes": 206404,
+      "sha256": "95da7717ff32d6a4a46015f1266631091edc2918dbb5d22ec3343398fc8d2e78"
+    },
+    "problems/burgers/checkpoint/model.index": {
+      "bytes": 508,
+      "sha256": "d748d21bbd8b7ac16d93dca799d31b5b84aacbb7371f47d1ae67344d75fea5c7"
+    },
+    "problems/burgers/checkpoint/model.meta": {
+      "bytes": 179144,
+      "sha256": "35397936ddff065ce5ce31d0a66de3c33c2a2589d319c99f83d38a2a343bab8b"
+    },
+    "problems/burgers/test_data.npz": {
+      "bytes": 15286753,
+      "sha256": "53686aeff35502658f84ec0c4cfe833ab5dbbacf763350b8c11aa3903b51286a"
+    },
+    "problems/burgers/training_data.npz": {
+      "bytes": 82175980,
+      "sha256": "6ccdbf86695348da8d8c6d9e0e85e78c27df18ce05239d3e2c32b0ad0f77b4d7"
+    },
+    "problems/cavity_flow/checkpoint_u/model.data-00000-of-00001": {
+      "bytes": 203604,
+      "sha256": "1e7a69d9d62601954101efaf0d3fd03dcae9a6a17b23e34977583e65b2c13d90"
+    },
+    "problems/cavity_flow/checkpoint_u/model.index": {
+      "bytes": 508,
+      "sha256": "5f4ccf68f5c024e166b0fc14fa7f7eef4d28ab346adb0c5182c2631963ed0f1a"
+    },
+    "problems/cavity_flow/checkpoint_u/model.meta": {
+      "bytes": 146127,
+      "sha256": "61195e07ac9f9a3deda2806858ef2cb5c5420074afd7f7ab6d66d797e0667476"
+    },
+    "problems/cavity_flow/checkpoint_v/model.data-00000-of-00001": {
+      "bytes": 203604,
+      "sha256": "61a462016e8c9e06ed380b9be5a68e9cd8eed9d7efa1c8f2e708be044d39fe23"
+    },
+    "problems/cavity_flow/checkpoint_v/model.index": {
+      "bytes": 508,
+      "sha256": "238fbcb19e25f38a686dccafa4047600ff65a33dfc760667057e029573e6afa0"
+    },
+    "problems/cavity_flow/checkpoint_v/model.meta": {
+      "bytes": 146127,
+      "sha256": "61195e07ac9f9a3deda2806858ef2cb5c5420074afd7f7ab6d66d797e0667476"
+    },
+    "problems/cavity_flow/test_data.npz": {
+      "bytes": 7290190,
+      "sha256": "a320ab08681d9d3e2a421179ab254ad22a847b0b2b3aad4c6e62750051078ed4"
+    },
+    "problems/cavity_flow/training_data.npz": {
+      "bytes": 5864575,
+      "sha256": "7b0466300a9ecf02fd14a95bc9abee2d82446fa17504ddf46611cea2a9ef54a2"
+    },
+    "problems/diffusion_reaction/checkpoint/model.data-00000-of-00001": {
+      "bytes": 203604,
+      "sha256": "b3a8c6a71740f87f69a66095954c81ec42f2599d388d31cd41fa058939f88f38"
+    },
+    "problems/diffusion_reaction/checkpoint/model.index": {
+      "bytes": 508,
+      "sha256": "b6ada37419bcadd14925ae517a36df9c30e7c6dd3a906c71dbea8ca722d6735a"
+    },
+    "problems/diffusion_reaction/checkpoint/model.meta": {
+      "bytes": 145253,
+      "sha256": "20a600147c2aa659f07ec01124f1e7ab5bbea9b91d453359d8bfebc32b47309b"
+    },
+    "problems/diffusion_reaction/test_data.npz": {
+      "bytes": 15145594,
+      "sha256": "455fe7fd3616063744f2880ceddab31f1e43582416336fe35bc6f33d4e9ae4dd"
+    },
+    "problems/diffusion_reaction/training_data.npz": {
+      "bytes": 82175980,
+      "sha256": "eca686b762c71436ff561b69150cae0bd2159b25de5e14dec1a902cb4f3e763f"
+    },
+    "problems/poisson/checkpoint/model.data-00000-of-00001": {
+      "bytes": 203604,
+      "sha256": "2622959492294bdf3d70dbe793860b6027a3ed851913d302f9d564057ed9670b"
+    },
+    "problems/poisson/checkpoint/model.index": {
+      "bytes": 508,
+      "sha256": "3224a3445c1e1c68c8225b059f0cc2e03c310b47e50c6f6bded663658fffbbbe"
+    },
+    "problems/poisson/checkpoint/model.meta": {
+      "bytes": 140966,
+      "sha256": "c71e22defb6773f75fb54c9e2b4dd088fcc9e938531982117c4a6953c7e758b7"
+    },
+    "problems/poisson/test_data.npz": {
+      "bytes": 3714183,
+      "sha256": "c415b257709d46f24bd91c502f13ffb92c36b8e24704aad2b15dd2b0c57d9949"
+    },
+    "problems/poisson/training_data.npz": {
+      "bytes": 20773420,
+      "sha256": "3bb7aba06d5caf071f895e27aa4856d4e752d5145412bd0ff0e1d4a571d9cab1"
+    }
+  },
+  "format_version": 1
+}

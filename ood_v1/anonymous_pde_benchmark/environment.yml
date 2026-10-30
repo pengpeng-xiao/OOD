@@ -1,0 +1,16 @@
+name: deeponet-extrapolation-repro
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - deepxde==1.9.1
+      - emukit==0.4.11
+      - GPy==1.13.2
+      - jax==0.4.30
+      - jaxlib==0.4.30
+      - matplotlib==3.10.9
+      - numpy==1.23.5
+      - scipy==1.10.1
+      - tensorflow-cpu==2.12.0

@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DeepONet Split Audit</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one left-aligned reading column (~68ch); tables, the score chart and the figure break out to a wider measure. */
+:root {
+  --paper: #f5f7f9;
+  --ink: #14181d;
+  --ink-2: #505864;
+  --rule: #d8dde4;
+  --accent: #1d5fa8;
+  --id: #2a78d6;
+  --ood: #eb6834;
+  --band: #b8bec8;
+  --plate: #ffffff;
+  --tint: #e9eef4;
+  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --measure: 68ch;
+  --wide: 1000px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #111418; --ink: #e6e9ee; --ink-2: #a2aab5; --rule: #2b3139; --accent: #6ea6e8;
+    --id: #3987e5; --ood: #d95926; --band: #4b535e; --plate: #fcfcfb; --tint: #1a1f25;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #111418; --ink: #e6e9ee; --ink-2: #a2aab5; --rule: #2b3139; --accent: #6ea6e8;
+  --id: #3987e5; --ood: #d95926; --band: #4b535e; --plate: #fcfcfb; --tint: #1a1f25;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.6;
+  padding-block: 48px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+main { max-width: var(--wide); margin: 0 auto; display: grid; gap: 56px; }
+section, header { display: grid; gap: 16px; }
+p, ul, ol, dl { margin: 0; max-width: var(--measure); }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(2rem, 4.2vw, 2.9rem); font-weight: 700; letter-spacing: -0.01em; max-width: 22ch; }
+h2 { font-size: 1.55rem; font-weight: 700; padding-top: 18px; border-top: 1px solid var(--rule); }
+h3 { font-size: 1.08rem; font-weight: 600; }
+a { color: var(--accent); }
+code, .mono { font-family: var(--f-mono); font-size: 0.86em; }
+code { background: var(--tint); padding: 1px 5px; border-radius: 3px; overflow-wrap: anywhere; }
+.eyebrow { font-family: var(--f-display); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+.lede { font-size: 1.16rem; line-height: 1.55; }
+.muted { color: var(--ink-2); }
+.small { font-size: 0.9rem; }
+
+/* headline figures */
+.figures { display: flex; flex-wrap: wrap; gap: 12px 40px; padding: 18px 0 4px; border-top: 2px solid var(--ink); max-width: var(--wide); }
+.fig { display: grid; gap: 2px; min-width: 150px; }
+.fig b { font-family: var(--f-display); font-size: 2.1rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.fig span { font-size: 0.92rem; color: var(--ink-2); max-width: 24ch; }
+
+/* tables */
+.tablewrap { overflow-x: auto; max-width: 100%; }
+table { border-collapse: collapse; width: 100%; font-size: 0.93rem; line-height: 1.35; }
+caption { text-align: left; font-size: 0.88rem; color: var(--ink-2); padding-bottom: 8px; caption-side: top; }
+th, td { text-align: left; padding: 9px 12px 9px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+thead th { font-family: var(--f-display); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); border-bottom: 1.5px solid var(--ink); white-space: nowrap; }
+thead th.sym { text-transform: none; font-family: var(--f-body); font-size: 0.95rem; letter-spacing: 0; }
+tbody th { font-family: var(--f-display); font-weight: 600; white-space: nowrap; }
+td.num { font-family: var(--f-mono); font-size: 0.86rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.strong { font-weight: 500; color: var(--ink); }
+td.muted { color: var(--ink-2); }
+.grouphead th { border-bottom: none; padding-bottom: 0; }
+
+/* method steps */
+ol.steps { list-style: none; padding: 0; display: grid; gap: 28px; max-width: var(--wide); counter-reset: step; }
+ol.steps > li { display: grid; grid-template-columns: 2.6rem 1fr; gap: 0 14px; counter-increment: step; }
+ol.steps > li::before { content: counter(step); font-family: var(--f-display); font-weight: 700; font-size: 1.05rem; color: var(--accent); border: 1.5px solid var(--accent); border-radius: 50%; width: 2rem; height: 2rem; display: grid; place-items: center; margin-top: 1px; }
+ol.steps > li > div { display: grid; gap: 10px; min-width: 0; }
+ul.plain { padding-left: 1.1em; display: grid; gap: 6px; }
+
+.formula { font-family: var(--f-mono); font-size: 0.95rem; background: var(--tint); padding: 14px 16px; border-radius: 4px; overflow-x: auto; white-space: nowrap; max-width: var(--measure); }
+.formula var { font-style: italic; }
+
+/* score chart */
+.legend { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 0.9rem; color: var(--ink-2); align-items: center; }
+.legend i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 7px; vertical-align: -1px; }
+.legend i.band { border-radius: 3px; width: 22px; height: 8px; background: var(--band); }
+.legend i.id { background: var(--id); } .legend i.ood { background: var(--ood); }
+.legend i.thr { width: 0; height: 14px; border-radius: 0; border-left: 1.5px dashed var(--ink); margin-right: 9px; vertical-align: -3px; }
+.chartwrap { overflow-x: auto; max-width: 100%; }
+svg.sep { display: block; width: 100%; min-width: 760px; height: auto; font-family: var(--f-mono); }
+svg.sep .grid { stroke: var(--rule); stroke-width: 1; }
+svg.sep .tick { fill: var(--ink-2); font-size: 12px; }
+svg.sep .axis { fill: var(--ink-2); font-size: 12px; font-family: var(--f-body); }
+svg.sep .rowlab { fill: var(--ink); font-size: 14px; font-weight: 600; font-family: var(--f-display); }
+svg.sep .rowsub { fill: var(--ink-2); font-size: 11.5px; }
+svg.sep .band { fill: var(--band); }
+svg.sep .bandmed { stroke: var(--ink-2); stroke-width: 2; }
+svg.sep circle { stroke: var(--paper); stroke-width: 1; }
+svg.sep circle.id { fill: var(--id); }
+svg.sep circle.ood { fill: var(--ood); }
+svg.sep circle:hover { stroke: var(--ink); stroke-width: 2; }
+svg.sep .thr { stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 5 4; }
+svg.sep .thrlab { fill: var(--ink); font-size: 12px; }
+
+figure { margin: 0; display: grid; gap: 10px; }
+figcaption { font-size: 0.9rem; color: var(--ink-2); max-width: var(--measure); }
+.plate { background: var(--plate); border: 1px solid var(--rule); border-radius: 4px; padding: 10px; overflow-x: auto; }
+.plate img { display: block; width: 100%; min-width: 900px; height: auto; }
+
+.callout { border-left: 3px solid var(--accent); padding: 4px 0 4px 16px; max-width: var(--measure); }
+dl.files { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 8px 20px; max-width: var(--wide); }
+dl.files dt { font-family: var(--f-mono); font-size: 0.85rem; overflow-wrap: anywhere; }
+dl.files dd { margin: 0; }
+pre { font-family: var(--f-mono); font-size: 0.84rem; background: var(--tint); padding: 14px 16px; border-radius: 4px; overflow-x: auto; margin: 0; line-height: 1.5; }
+footer { max-width: var(--wide); margin: 0 auto; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 0.85rem; color: var(--ink-2); }
+
+@media (max-width: 640px) {
+  body { font-size: 16px; padding-block: 28px 48px; }
+  main { gap: 44px; }
+  dl.files { grid-template-columns: 1fr; gap: 2px 0; }
+  dl.files dd { margin-bottom: 10px; }
+  ol.steps > li { grid-template-columns: 2.2rem 1fr; gap: 0 10px; }
+}
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <div class="eyebrow">Analysis report · 15 October 2026 · anonymous_pde_benchmark</div>
+  <h1>Which test samples are out of distribution?</h1>
+  <p class="lede">The benchmark ships five DeepONet checkpoints with their training data and a test set per PDE that mixes samples from several regimes, with no labels. I fitted a statistical model of how each problem's training inputs were generated, then tested every test input against it. Scored afterwards against the private split key, the labels are exactly right.</p>
+  <div class="figures" role="list">
+    <div class="fig" role="listitem"><b>$CORRECT / $TOTAL</b><span>test samples labelled correctly</span></div>
+    <div class="fig" role="listitem"><b>1.000</b><span>AUROC on each of the five PDEs</span></div>
+    <div class="fig" role="listitem"><b>$WRONG</b><span>false positives or false negatives</span></div>
+  </div>
+</header>
+
+<section id="result">
+  <h2>Result</h2>
+  <p>Each scalar PDE's test set splits into one group that matches the training inputs and one or more groups drawn from rougher random fields. Cavity flow splits by the lid amplitude <var>U</var>. The regimes in the fourth column are the length scales I estimated from the data; the source file names in the private key list the same values.</p>
+  <div class="tablewrap">
+  <table>
+    <caption>Detection results per problem. AUROC uses the continuous detection score; the last column shows what DeepONet prediction error alone would have achieved.</caption>
+    <thead><tr><th scope="col">Problem</th><th scope="col">ID</th><th scope="col">OOD</th><th scope="col">Training inputs</th><th scope="col">OOD regimes found</th><th scope="col">AUROC</th><th scope="col">Accuracy</th><th scope="col">AUROC, error only</th></tr></thead>
+    <tbody>
+$RESULTS_ROWS
+    </tbody>
+  </table>
+  </div>
+  <p class="small muted">For advection, each of the four OOD regimes was also scored on its own against the 100 ID samples: AUROC 1.000 and 100% recall for every regime.</p>
+</section>
+
+<section id="ground-rules">
+  <h2>Task and ground rules</h2>
+  <ul class="plain">
+    <li>Local access was limited to the benchmark bundle. It contains training data, checkpoints and test sets for <code>diffusion_reaction</code>, <code>burgers</code>, <code>advection</code>, <code>poisson</code> and <code>cavity_flow</code>.</li>
+    <li>I did not look up the data or its source. The detection used only the bundle and general statistics.</li>
+    <li>To run the TensorFlow-v1 checkpoints I built a separate environment (TensorFlow 2.12, DeepXDE 1.9.1). I did not use the existing environment outside the bundle.</li>
+    <li>The labels and the decision threshold were fixed before the private key was opened. The key was read only afterwards, by the scoring script, once you gave access to it.</li>
+  </ul>
+</section>
+
+<section id="data">
+  <h2>What the inputs are</h2>
+  <p>Every problem feeds the network a function sampled at 101 points (the branch input) and asks for the solution at a set of coordinates (the trunk input). The detection works on the branch inputs.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th scope="col">Problem</th><th scope="col">Branch input</th><th scope="col">Solution</th><th scope="col">Train / test</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Diffusion–reaction</th><td>source term on [0, 1]</td><td>u(x, t), 101 × 101 grid</td><td class="num">1000 / 200</td></tr>
+      <tr><th scope="row">Burgers</th><td>periodic initial condition; equals the solution at t = 0</td><td>u(x, t), 101 × 101 grid</td><td class="num">1000 / 200</td></tr>
+      <tr><th scope="row">Advection</th><td>positive velocity field; every sample's minimum is exactly 1</td><td>u(x, t), 101 × 101 grid</td><td class="num">1000 / 500</td></tr>
+      <tr><th scope="row">Poisson</th><td>boundary values along two edges of a triangle</td><td>5,082 points in the triangle</td><td class="num">1000 / 200</td></tr>
+      <tr><th scope="row">Cavity flow</th><td>lid velocity profile <var>U</var>·(1 − x)</td><td>velocity (u, v), 101 × 101 grid</td><td class="num">21 / 30</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="method">
+  <h2>Method</h2>
+  <ol class="steps">
+    <li><div>
+      <h3>First look: run the released models</h3>
+      <p>I ran every checkpoint on its training set and its test set and compared relative L2 errors per sample. Many test samples had errors far above anything seen in training: 78% for advection, 50% for Poisson, 30% for diffusion–reaction, 10 of 30 for cavity flow, but only 5% for Burgers. Error is a useful signal, but it mixes "unfamiliar input" with "hard input", so I used it only as a cross-check.</p>
+    </div></li>
+    <li><div>
+      <h3>Identify how the training inputs were generated</h3>
+      <p>The empirical covariance of the training inputs depended only on the distance between points, which suggested a stationary Gaussian random field (GRF). I fitted kernel family, length scale <var>l</var>, amplitude σ and noise level (nugget) by maximum likelihood over all 1000 training samples at once.</p>
+      <div class="tablewrap">
+      <table>
+        <thead><tr><th scope="col">Problem</th><th scope="col">Kernel</th><th scope="col" class="sym"><var>l</var></th><th scope="col" class="sym">σ</th><th scope="col">Nugget</th><th scope="col">Note</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Diffusion–reaction</th><td>squared exponential</td><td class="num">0.50</td><td class="num">0.94</td><td class="num">1e-13</td><td></td></tr>
+          <tr><th scope="row">Burgers</th><td>periodic (exp-sine-squared, period 1)</td><td class="num">1.00</td><td class="num">1.00</td><td class="num">1e-13</td><td>duplicated endpoint dropped</td></tr>
+          <tr><th scope="row">Advection</th><td>squared exponential</td><td class="num">0.50</td><td class="num">1.00</td><td class="num">1e-10</td><td>constant offset removed</td></tr>
+          <tr><th scope="row">Poisson</th><td>squared exponential</td><td class="num">0.50</td><td class="num">≈1</td><td class="num">–</td><td>only the first 11 modes are present</td></tr>
+          <tr><th scope="row">Cavity flow</th><td colspan="4">ramp <var>U</var>·(1 − x), <var>U</var> = 0, 0.02, …, 0.40</td><td>21 training samples</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div></li>
+    <li><div>
+      <h3>Score each test sample with a likelihood ratio</h3>
+      <p>For a test input <var>x</var>, I found the length scale that best explains that single sample, with σ fitted alongside it, and compared the fit with the training length scale:</p>
+      <div class="formula">score = 2 · [ max<sub><var>l</var></sub> log p(<var>x</var> | <var>l</var>) − log p(<var>x</var> | <var>l</var><sub>train</sub>) ]</div>
+      <p>The kernel's variance in mode <var>k</var> falls roughly like exp(−c·k²·l²), so a rougher field puts orders of magnitude more energy into modes 6 to 12 than the training model allows. Because the samples are almost noise-free, one 101-point sample pins down its own length scale very precisely.</p>
+      <p>For training-distributed samples the score should follow a χ² distribution with one degree of freedom. The 1000 training samples confirmed this, with a maximum near 13. I labelled a sample OOD when p &lt; 10⁻⁴, which means a score above 15.1.</p>
+    </div></li>
+    <li><div>
+      <h3>Adjust for each problem's quirks</h3>
+      <ul class="plain">
+        <li><b>Advection.</b> Inputs are shifted so their minimum is 1 (a = f − min f + 1), which hides the field's own offset. I fitted only the variation around each sample's mean (restricted likelihood).</li>
+        <li><b>Burgers.</b> Periodic kernel; the last point repeats the first, so I dropped it.</li>
+        <li><b>Poisson.</b> The training spectrum matches the kernel through mode 10, then drops to the float32 rounding floor. The generator kept only 11 modes, so I restricted the likelihood to them.</li>
+        <li><b>Cavity flow.</b> The input has a single parameter, so I read off <var>U</var> and compared it with the training range [0, 0.40]. Values inside the range are interpolation (ID); values above it are extrapolation (OOD).</li>
+      </ul>
+    </div></li>
+    <li><div>
+      <h3>Cross-check with independent signals</h3>
+      <ul class="plain">
+        <li><b>Model-free distance.</b> Mahalanobis distance in the leading principal directions of the training inputs, with a threshold from 10-fold cross-validation on training data. It makes no kernel assumption and gave AUROC 1.000 on every scalar problem. Burgers needs 14 or more directions (0.972 with 10) because periodic fields carry their information in sin/cos pairs.</li>
+        <li><b>Poisson tail energy.</b> Energy beyond mode 11 is at most 7.2e-13 in training and 3.1e-13 in ID test samples, but at least 9.3e-6 in OOD test samples. It agrees with the labels on all 200 samples.</li>
+        <li><b>Model error.</b> On samples labelled ID the error distribution matches training. OOD errors are 5–20× higher, and largest for the roughest regimes.</li>
+        <li><b>Two-sample tests.</b> KS tests of the ID-labelled test group against training found no difference in fitted length scale, amplitude or model error (p &gt; 0.05), apart from slightly higher error on unseen advection samples (p = 0.026), as expected for a generalisation gap.</li>
+      </ul>
+    </div></li>
+    <li><div>
+      <h3>Score against the private key</h3>
+      <p>The key gives a split label (iid or ood) and the source file for every sample ID. <code>evaluate_auroc.py</code> matches sample IDs and reports AUROC for each score, accuracy and the confusion matrix of the hard labels.</p>
+    </div></li>
+  </ol>
+</section>
+
+<section id="evidence">
+  <h2>Evidence</h2>
+  <p>The gap between the groups is wide. ID test samples score at most 8.6 and OOD samples at least $PO_OOD_MIN, so the threshold sits in empty space. Hover over a dot to see the sample.</p>
+  <div class="legend" aria-hidden="true">
+    <span><i class="band"></i>training samples (range, median tick)</span>
+    <span><i class="id"></i>test sample labelled ID</span>
+    <span><i class="ood"></i>test sample labelled OOD</span>
+    <span><i class="thr"></i>decision threshold</span>
+  </div>
+  <div class="chartwrap">
+$SEP_SVG
+  </div>
+
+  <div class="tablewrap">
+  <table>
+    <caption>Fitted length scale, detection score and DeepONet relative L2 error (median) for each group.</caption>
+    <thead>
+      <tr class="grouphead"><th></th><th scope="colgroup" colspan="3">Fitted length scale</th><th scope="colgroup" colspan="3">2·logLR</th><th scope="colgroup" colspan="3">Model error, median</th></tr>
+      <tr><th scope="col">Problem</th><th scope="col">Train</th><th scope="col">Test ID</th><th scope="col">Test OOD</th><th scope="col">Train max</th><th scope="col">ID max</th><th scope="col">OOD range</th><th scope="col">Train</th><th scope="col">Test ID</th><th scope="col">Test OOD</th></tr>
+    </thead>
+    <tbody>
+$EVIDENCE_ROWS
+    </tbody>
+  </table>
+  </div>
+  <p class="small muted">Cavity flow: ID samples have <var>U</var> = $CAV_U_ID and a worst u-error of $CAV_EU_ID (training worst $CAV_EU_TR). OOD samples have <var>U</var> = $CAV_U_OOD and u-errors of $CAV_EU_OOD, rising with <var>U</var> (correlation 0.996).</p>
+
+  <figure>
+    <div class="plate"><img src="data:image/png;base64,$FIG_B64" alt="Ten-panel diagnostic figure. Top row: histograms of fitted length scale for training, ID test and OOD test samples in each scalar PDE, and lid amplitude U for cavity flow. Bottom row: model error against detection score, and against U for cavity flow."></div>
+    <figcaption>Full diagnostic figure. Top: fitted length scale per sample (cavity flow: lid amplitude). Bottom: DeepONet error against the detection score (cavity flow: against <var>U</var>). Grey is training data.</figcaption>
+  </figure>
+</section>
+
+<section id="lessons">
+  <h2>What went wrong along the way</h2>
+  <ul class="plain">
+    <li><b>The first noise level was far too large.</b> With a nugget of 1e-6, the fitted length scale for training samples came out near 0.35 and σ near 0.16, both badly biased. The data are nearly noise-free, so a large nugget hides the high-frequency modes where most of the information lives. Fitting the nugget by pooled likelihood (about 1e-13) fixed it.</li>
+    <li><b>Poisson did not match the kernel at first.</b> Even with a small nugget its training fits were broad (0.2 to 0.53). Comparing the empirical spectrum with the kernel spectrum showed the truncation after mode 10, and restricting the likelihood to the first 11 modes made the training fits tight around 0.5.</li>
+    <li><b>Model error alone would not have been enough.</b> On Burgers it reaches AUROC $BU_AUC_ERR, because the network handles the moderately rougher inputs fairly well. Testing the input distribution directly is what made the separation complete.</li>
+  </ul>
+</section>
+
+<section id="caveats">
+  <h2>Caveats</h2>
+  <ul class="plain">
+    <li><b>The cavity-flow definition is a choice.</b> The 20 ID samples have <var>U</var> values between the training values, not equal to them. I counted them as in-distribution because they are interpolation within the training range, and the key agrees. Under a stricter definition, where only the 21 exact training values count, all 30 would be OOD.</li>
+    <li><b>The method relies on the inputs' simple structure.</b> It works this well because each problem's training inputs follow a simple parametric model and the regimes differ in one parameter. Without that structure, the model-free distance check (or a learned density model) is the better default.</li>
+    <li><b>One borderline call by the cross-check.</b> The Mahalanobis check flags one Burgers ID sample just above its 99.9% cross-validation threshold. It is far below every OOD sample, and the main test labels it ID, correctly.</li>
+  </ul>
+</section>
+
+<section id="files">
+  <h2>Files</h2>
+  <p>Everything lives in <code>/mnt/ssd/pengpengxiao/ood/ood_analysis/</code>.</p>
+  <dl class="files">
+    <dt>results/ood_labels.csv</dt><dd>One row per test sample: label, fitted length scale and amplitude, 2·logLR, p-values and model error (lid amplitude and u/v errors for cavity flow).</dd>
+    <dt>results/ood_summary.png</dt><dd>The diagnostic figure above.</dd>
+    <dt>analysis/gp_pooled.py, spec.py</dt><dd>Pooled fit of the training generator; spectrum comparison.</dd>
+    <dt>analysis/gp_mle2.py, gp_poisson2.py</dt><dd>Per-sample length-scale fits and likelihoods.</dd>
+    <dt>analysis/classify.py</dt><dd>Applies the threshold and writes the labels.</dd>
+    <dt>analysis/crosscheck*.py, errs.py</dt><dd>Mahalanobis and tail-energy checks; model-error comparison.</dd>
+    <dt>analysis/run_models.py</dt><dd>Runs the released checkpoints (needs TensorFlow 2.12 and DeepXDE 1.9.1).</dd>
+    <dt>analysis/evaluate_auroc.py</dt><dd>Scores the labels against the private key.</dd>
+    <dt>analysis/build_report.py</dt><dd>Regenerates this page from the saved results.</dd>
+  </dl>
+  <pre>cd /mnt/ssd/pengpengxiao/ood/ood_analysis/analysis
+python run_models.py ../preds                 # DeepONet predictions
+python gp_mle2.py &amp;&amp; python gp_poisson2.py     # length-scale fits
+python classify.py                            # labels
+python evaluate_auroc.py                      # AUROC against the key
+python build_report.py                        # this report</pre>
+</section>
+
+</main>
+<footer>Prepared with Claude Code, 15 October 2026. Detection used only the benchmark bundle; the private key was used for scoring after the labels were fixed.</footer>
+</body>
+</html>
